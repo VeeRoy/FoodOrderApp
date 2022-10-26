@@ -1,0 +1,140 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+</head>
+<style>
+    #ord {
+        width: 30%;
+        height: 50vh;
+        margin-left: 10%;
+        text-align: center;
+        margin-top: 3%;
+        padding: 2%;
+        border-style: dashed;
+        border-radius: 10%;
+        float: left;
+        position: relative;
+    }
+
+    #ord h2 {
+        margin-top: -2%;
+    }
+
+    table {
+        width: 100%;
+        border-style: dotted;
+    }
+
+    th {
+        text-align: left;
+    }
+</style>
+
+<body>
+    <div class="contain">
+        <div id="ord">
+            <h2>Order</h2>
+            <form action="/order" method="post">
+                <label>Enter Your Name</label> <br>
+                <input type="text" name="user"> <br> <br>
+                <label>Select a Product</label>
+                <select name="product" id="product">
+                    <option value="Head">Products</option>
+                    <option value="rice">Rice</option>
+                    <option value="beans">Beans</option>
+                    <option value="meat">Meat</option>
+                    <option value="Fish">Fish</option>
+                    <option value="Tofu">Tofu</option>
+                </select> <br> <br>
+                <label>Enter Quantity</label> <br>
+                <input type="number" name="quantity" id="quantity"> <br> <br>
+                <input type="button" value="Order Again" id="order">
+                <input type="button" value="Save" id="save">
+            </form>
+        </div>
+        <div id="ord">
+            <h2>Cart</h2>
+            <table id="lin">
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+                <tbody id="addToCart"></tbody>
+            </table>
+            <input type="button" value="cancel" id="cancel" style="margin-left: -85%; margin-top: 10%;">
+            
+            <table id="sum" style="margin-left: 70%; width: 30%; margin-top: -5%;">
+                <tr>
+                    <th>Total</th>
+                    <td id="dis">0</td>
+                </tr>
+
+
+            </table>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    let quantityType = document.getElementById('quantity')
+    let productType = document.getElementById('product')
+    let order = document.getElementById('order')
+    let addTo = document.getElementById('addToCart')
+    let sum = document.getElementById('sum')
+    let dis = document.getElementById('dis')
+    let table = document.getElementById('lin')
+    let cancel = document.getElementById('cancel')
+
+
+    let price = {
+        rice: 50,
+        beans: 70,
+        meat: 40,
+        Tofu: 70,
+        Fish: 30
+    }
+
+    let cart = []
+
+    order.addEventListener('click', () => {
+        let total = quantityType.value * price[productType.value]
+        
+        let ordering = "<tr><td>" + productType.value + "</td><td>" + quantityType.value + "</td><td>" + total + "</td><tr>"
+        addTo.innerHTML += ordering
+
+        
+
+        dis.innerText = parseInt(dis.innerText) + total;
+        let obj = {
+            product: productType.value,
+            quantity: quantityType.value,
+            total: total
+        }
+        cart.push(obj)    
+
+    })
+
+    cancel.addEventListener('click', () => {
+        dis.innerText = 0
+        addTo.innerHTML = ''
+
+    })
+    
+        document.getElementById("save").addEventListener("click", () => {
+        
+        fetch("/order", { method: 'post', body: JSON.stringify(cart), headers:{'content-Type':'application/json'} })
+        .then((sending)=>{
+            console.log(sending)
+        })
+        
+    })
+
+</script>
+
+</html>

@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<style>
+    div{
+        width: 30%;
+        height: 35vh;
+        margin-left: 32%;
+        text-align: center;
+        margin-top: 10%;
+        padding: 2%;
+        border-style: dashed;
+        border-radius: 10%;
+    }
+</style>
+<body>
+    <div>
+        <h2>Registration Page</h2>
+        <form action="/register" method="post">
+            <label>Enter a username</label> <br> <br>
+            <input type="text" name="username" required> <br> <br>
+            <label>Enter a password</label> <br> <br>
+            <input type="password" name="password" required> <br> <br>
+                <input type="submit" value="Register">
+                <a href="/login">Login</a>
+        </form>
+    </div>
+</body>
+</html>
